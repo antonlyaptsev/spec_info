@@ -1,8 +1,8 @@
 from math import sin, cos, tan, atan, asin, radians, degrees
 
-jd = 2457224.348273						#current julian date
-obj_alpha = 17 + 13/60.0 + 23/3600.0
-obj_delta = 33 + 31/60.0 + 01/3600.0
+jd = 2457224.576345						#current julian date
+obj_alpha = 17 + 13/60.0 + 45/3600.0
+obj_delta = 33 + 31/60.0 + 31/3600.0
 c = 299792458							#speed of light(meters per square second)
 
 n = jd - 2451545.0						#num of days after J2000.0
@@ -45,8 +45,9 @@ hjd = jd - ((r_m/c) * (sin(radians(obj_delta))*sin(radians(sun_delta)) +
 	cos(radians(obj_delta))*cos(radians(sun_delta))*
 	cos(radians(obj_alpha_deg - sun_alpha_deg))))/(24*3600)
 
-print("Sun_alpha(in hours) = " + str(sun_alpha))
-print("Sun_alpha(in deg) = " + str(sun_alpha_deg))
+print("JD " + str(jd))
+print("obj_alpha " + str(obj_alpha))
+print("obj_delta " + str(obj_delta))
 print("HJD = " + str(hjd))
 print("HJD - JD = " + str(hjd-jd))
 print("HJD - JD (in minutes) = " + str((hjd-jd)*24*60))
