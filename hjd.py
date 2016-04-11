@@ -6,8 +6,8 @@ obj_delta = 33 + 31/60.0 + 01/3600.0
 c = 299792458							#speed of light(meters per square second)
 
 n = jd - 2451545.0						#num of days after J2000.0
-l = (280.460 + 0.9856474*n)-360*16 		#mean longitude of Sun (corrected for the abberation of light)
-g = (357.528 + 0.9856003*n)-360*16 		#mean anomaly of the Sun
+l = (280.460 + 0.9856474*n) % 360 		#mean longitude of Sun (corrected for the abberation of light)
+g = (357.528 + 0.9856003*n) % 360 		#mean anomaly of the Sun
 
 e = 23.439 - 0.0000004*n 				#obliquity of ecliptic
 
