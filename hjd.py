@@ -12,9 +12,9 @@ g = (357.528 + 0.9856003*n) % 360 		#mean anomaly of the Sun
 e = 23.439 - 0.0000004*n 				#obliquity of ecliptic
 
 #distance of the Sun from the Earth (in au)
-r = 1.00014 - 0.01671*cos(radians(g)) - 0.00014*cos(radians(2*g))
+r_au = 1.00014 - 0.01671*cos(radians(g)) - 0.00014*cos(radians(2*g))
 #distance in meters
-r *= 149597870700						
+r_m = r_au * 149597870700						
 
 #ecliptic latitude of the Sun
 sun_lambda = l + 1.915*sin(radians(g)) + 0.020*sin(radians(2*g))
@@ -22,13 +22,17 @@ sun_lambda = l + 1.915*sin(radians(g)) + 0.020*sin(radians(2*g))
 #ecliptic latitude of the sun_beta
 sun_beta = 0.0
 
+
 #Sun alpha in degrees
-sun_alpha_deg = degrees(atan(cos(radians(e)) * tan(radians(sun_lambda))))
-if sun_alpha_deg < 0:
-	sun_alpha_deg = 360 + sun_alpha_deg
+if (sun_lambda < 90 and sun_lambda > 0): 
+	sun_alpha_deg = degrees(atan(cos(radians(e)) * tan(radians(sun_lambda))))
+elif (sun_lambda > 90 and sun_lambda < 270):
+	sun_alpha_deg = 180 + degrees(atan(cos(radians(e)) * tan(radians(sun_lambda))))
+elif (sun_lambda > 270 and sun_lambda < 360):
+	sun_alpha_deg = 360 + degrees(atan(cos(radians(e)) * tan(radians(sun_lambda))))
 
 #Sun alpha in hours
-sun_alpha = (24*(sun_alpha_deg+180))/360
+sun_alpha = (24*(sun_alpha_deg))/360
 
 #Sun delta
 sun_delta = degrees(asin(sin(radians(e)) * sin(radians(sun_lambda))))
@@ -37,17 +41,13 @@ sun_delta = degrees(asin(sin(radians(e)) * sin(radians(sun_lambda))))
 obj_alpha_deg = (obj_alpha*360)/24
 
 #Heliocentric Julian Date
-hjd = jd - ((r/c) * (sin(radians(obj_delta))*sin(radians(sun_delta)) + 
+hjd = jd - ((r_m/c) * (sin(radians(obj_delta))*sin(radians(sun_delta)) + 
 	cos(radians(obj_delta))*cos(radians(sun_delta))*
 	cos(radians(obj_alpha_deg - sun_alpha_deg))))/(24*3600)
 
-print(str(obj_alpha))
-print(str(obj_delta))
-
-print(str(hjd))
-print(str(hjd-jd))
-print(str((hjd-jd)*3600))
-
-
-
+print("Sun_alpha(in hours) = " + str(sun_alpha))
+print("Sun_alpha(in deg) = " + str(sun_alpha_deg))
+print("HJD = " + str(hjd))
+print("HJD - JD = " + str(hjd-jd))
+print("HJD - JD (in minutes) = " + str((hjd-jd)*24*60))
 
